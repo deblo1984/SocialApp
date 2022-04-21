@@ -4,8 +4,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const userRoute = require("./routes/users");
-const authRoute = require("./routes/auth");
+const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
+const postRoutes = require("./routes/posts");
 
 dotenv.config();
 
@@ -25,8 +26,9 @@ app.use(helmet());
 app.use(morgan("common"));
 
 //api routes
-app.use("/api/users", userRoute);
-app.use("/api/auth", authRoute);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
 
 //server start at port 5000
 app.listen(5000, () => {
