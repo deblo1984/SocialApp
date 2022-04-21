@@ -2,7 +2,12 @@ const User = require("../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 
-//update user
+/* 
+Update user
+METHOD: PUT
+API-URL: /api/users/:id
+@params: :id
+*/
 router.put("/:id", async (req, res) => {
   try {
     if (req.body.userId === req.params.id || req.body.isAdmin) {
@@ -12,58 +17,96 @@ router.put("/:id", async (req, res) => {
         const user = await User.findByIdAndUpdate(req.params.id, {
           $set: req.body,
         });
-        return res
-          .status(200)
-          .json({ message: "Account password has been updated", data: user });
+        return res.status(200).json({
+          success: true,
+          message: "Account password has been updated",
+          data: user,
+        });
       }
       const user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
       });
-      res.status(200).json({ message: "Account has been updated", data: user });
+      res.status(200).json({
+        success: true,
+        message: "Account has been updated",
+        data: user,
+      });
     } else {
       return res
         .status(403)
-        .json({ message: "You can update only your account!" });
+        .json({ success: false, message: "You can update only your account!" });
     }
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ success: false, message: "server error" });
   }
 });
 
-//delete user
+/* 
+Delete user
+METHOD: POST
+API-URL: /api/users/:id
+@params: :id
+*/
 router.delete("/:id", async (req, res) => {
   try {
     if (req.body.userId === req.params.id || req.body.isAdmin) {
       const user = await User.findByIdAndDelete(req.params.id);
 
-      res.status(200).json({ message: "account has been deleted", data: user });
+      res.status(200).json({
+        success: true,
+        message: "account has been deleted",
+        data: user,
+      });
     } else {
-      return res
-        .status(403)
-        .json({ message: "you can only delete your account" });
+      return res.status(403).json({
+        success: false,
+        message: "you can only delete your account",
+      });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
-//get a user
+/* 
+GET Single User
+METHOD: GET
+API-URL: /api/users/:id
+@params: :id
+*/
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
     }
     const { password, updatedAt, createdAt, ...other } = user._doc;
-    res.status(200).json({ message: "success", data: other });
+    res.status(200).json({
+      success: false,
+      data: other,
+    });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "server error" });
+    res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
-//follow a user
+/* 
+following user
+METHOD: PUT
+API-URL: /api/users/:id/follow
+@params: :id
+*/
 router.put("/:id/follow", async (req, res) => {
   try {
     if (req.body.userId !== req.params.id) {
@@ -74,22 +117,37 @@ router.put("/:id/follow", async (req, res) => {
         await currentUser.updateOne({
           $push: { followings: req.params.id },
         });
-        return res.status(200).json({ message: "user has been follow" });
+        return res.status(200).json({
+          success: true,
+          message: "user has been follow",
+        });
       } else {
-        return res
-          .status(403)
-          .json({ message: "you already following this person" });
+        return res.status(403).json({
+          success: false,
+          message: "you already following this person",
+        });
       }
     } else {
-      return res.status(403).json({ message: "you cant follow yourself" });
+      return res.status(403).json({
+        success: false,
+        message: "you cant follow yourself",
+      });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
-//unfollow a user
+/* 
+unfollow user
+METHOD: PUT
+API-URL: /api/users/:id/unfollow
+@params: :id
+*/
 router.put("/:id/unfollow", async (req, res) => {
   try {
     if (req.body.userId !== req.params.id) {
@@ -98,16 +156,28 @@ router.put("/:id/unfollow", async (req, res) => {
       if (user.followers.includes(req.body.userId)) {
         await user.updateOne({ $pull: { followers: req.body.userId } });
         await currentUser.updateOne({ $pull: { followings: req.params.id } });
-        return res.status(200).json({ message: "user has been unfollow" });
+        return res.status(200).json({
+          success: true,
+          message: "user has been unfollow",
+        });
       } else {
-        return res.status(403).json({ message: "you dont follow this person" });
+        return res.status(403).json({
+          success: false,
+          message: "you dont follow this person",
+        });
       }
     } else {
-      return res.status(403).json({ message: "you cant unfollow yourself" });
+      return res.status(403).json({
+        success: false,
+        message: "you cant unfollow yourself",
+      });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 

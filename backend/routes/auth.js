@@ -2,7 +2,12 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-//register users
+/* 
+Register new user
+METHOD: POST
+API-URL: /api/auth/register
+@params req.body
+*/
 router.post("/register", async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -19,11 +24,19 @@ router.post("/register", async (req, res) => {
   }
 });
 
+/* 
+User login
+METHOD: POST
+API-URL: /api/auth/login
+@params: email, password
+*/
+
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(400).json({
+        success: false,
         message: "user not found",
       });
     }
@@ -33,12 +46,14 @@ router.post("/login", async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(400).json({ message: "password incorrect" });
+      return res
+        .status(400)
+        .json({ success: false, message: "password incorrect" });
     }
-    res.status(200).json({ message: user });
+    res.status(200).json({ success: true, message: user });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({ success: false, message: "server error" });
   }
 });
 

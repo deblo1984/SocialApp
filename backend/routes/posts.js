@@ -163,10 +163,10 @@ router.get("/:id", async (req, res) => {
 /*
 Get timeline post 
 @METHOD: GET
-@API-URL: /api/posts/timeline
+@API-URL: /api/posts/timeline/all
 */
 
-router.get("/timeline/friend", async (req, res) => {
+router.get("/timeline/all", async (req, res) => {
   try {
     const currentUser = await User.findById(req.body.userId);
     const userPosts = await Post.find({ userId: currentUser._id });
