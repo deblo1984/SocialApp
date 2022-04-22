@@ -14,14 +14,21 @@ router.post("/", async (req, res) => {
     const newPost = new Post(req.body);
     const result = await newPost.save();
     if (!result) {
-      return res
-        .status(500)
-        .json({ success: false, message: "oops there is something wrong" });
+      return res.status(500).json({
+        success: false,
+        message: "oops there is something wrong",
+      });
     }
-    return res.status(200).json({ success: true, data: result });
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false, message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
@@ -41,9 +48,10 @@ router.put("/:id", async (req, res) => {
     */
 
     if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: "post not found" });
+      return res.status(404).json({
+        success: false,
+        message: "post not found",
+      });
     }
 
     /* 
@@ -51,15 +59,19 @@ router.put("/:id", async (req, res) => {
     throw warning 
     */
     if (post.userId !== req.body.userId) {
-      return res
-        .status(403)
-        .json({ success: false, message: "You can only update your post" });
+      return res.status(403).json({
+        success: false,
+        message: "You can only update your post",
+      });
     }
     await post.updateOne({ $set: req.body });
     return res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false, message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
@@ -79,9 +91,10 @@ router.delete("/:id", async (req, res) => {
     */
 
     if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: "post not found" });
+      return res.status(404).json({
+        success: false,
+        message: "post not found",
+      });
     }
 
     /* 
@@ -89,15 +102,22 @@ router.delete("/:id", async (req, res) => {
     throw warning 
     */
     if (post.userId !== req.body.userId) {
-      return res.status(403).json({ success: false, message: "Not allowed" });
+      return res.status(403).json({
+        success: false,
+        message: "Not allowed",
+      });
     }
     await post.deleteOne();
-    return res
-      .status(200)
-      .json({ success: true, message: "the post has been deleted" });
+    return res.status(200).json({
+      success: true,
+      message: "the post has been deleted",
+    });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 });
 
@@ -113,28 +133,34 @@ router.put("/:id/like", async (req, res) => {
 
     //if post not found
     if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: "post not found" });
+      return res.status(404).json({
+        success: false,
+        message: "post not found",
+      });
     }
 
     //user like the post
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
-      return res
-        .status(200)
-        .json({ success: true, message: "you like this post" });
+      return res.status(200).json({
+        success: true,
+        message: "you like this post",
+      });
     }
 
     //user unlike the post
     if (post.likes.includes(req.body.userId)) {
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      return res
-        .status(200)
-        .json({ success: true, message: "you unlike this post " });
+      return res.status(200).json({
+        success: true,
+        message: "you unlike this post ",
+      });
     }
   } catch (err) {
-    return res.status(500).json({ status: false, message: "server error" });
+    return res.status(500).json({
+      status: false,
+      message: "server error",
+    });
   }
 });
 
@@ -148,16 +174,22 @@ router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: "post not found" });
+      return res.status(404).json({
+        success: false,
+        message: "post not found",
+      });
     }
-    return res
-      .status(201)
-      .json({ success: true, message: "post was found", data: post });
+    return res.status(201).json({
+      success: true,
+      message: "post was found",
+      data: post,
+    });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false, message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 /*
@@ -178,7 +210,10 @@ router.get("/timeline/all", async (req, res) => {
     return res.status(200).json(userPosts.concat(...friendPosts));
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false, message: "server error" });
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 });
 
