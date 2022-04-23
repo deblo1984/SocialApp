@@ -1,7 +1,7 @@
 {
-  "name": "toysshop",
+  "name": "socialapp",
   "version": "1.0.0",
-  "description": "MERN Shop Cart App",
+  "description": "assbook",
   "main": "index.js",
   "scripts": {
     "start": "node backend/index",
