@@ -8,12 +8,12 @@ const Rightbar = ({ profile }) => {
     return (
       <>
         <div className="birthdayContainer">
-          <img className="birthdayImg" src="assets/gift.png" alt="" />
+          <img className="birthdayImg" src="public/gift.png" alt="" />
           <span className="birthdayText">
             <b>Asep</b> and <b>3 others friend</b> have a birthday today
           </span>
         </div>
-        <img className="rightbarAd" src="assets/ad.png" alt="" />
+        <img className="rightbarAd" src="public/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
           {Users.map((u) => (
@@ -47,7 +47,7 @@ const Rightbar = ({ profile }) => {
           <div className="rightbarFollowing">
             <img
               className="rightbarFollowingImg"
-              src="assets/person/2.jpeg"
+              src="/public/person/2.jpeg"
               alt=""
             />
             <span className="rightbarFollowingName">Asep Udin</span>
@@ -55,7 +55,7 @@ const Rightbar = ({ profile }) => {
           <div className="rightbarFollowing">
             <img
               className="rightbarFollowingImg"
-              src="assets/person/3.jpeg"
+              src="/public/person/3.jpeg"
               alt=""
             />
             <span className="rightbarFollowingName">Lala</span>
@@ -63,7 +63,7 @@ const Rightbar = ({ profile }) => {
           <div className="rightbarFollowing">
             <img
               className="rightbarFollowingImg"
-              src="assets/person/4.jpeg"
+              src="/public/person/4.jpeg"
               alt=""
             />
             <span className="rightbarFollowingName">ujang</span>

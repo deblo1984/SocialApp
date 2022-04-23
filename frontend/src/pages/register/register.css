@@ -48,6 +48,7 @@
   border: 1px solid gray;
   font-size: 18px;
   padding-left: 20px;
+  margin-bottom: 10px;
 }
 
 .loginInput:focus {
@@ -63,6 +64,7 @@
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .loginForgot {

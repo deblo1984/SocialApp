@@ -38,13 +38,13 @@ const Post = ({ post }) => {
           <div className="postBottomLeft">
             <img
               className="likeIcon"
-              src="assets/like.png"
+              src="/public/like.png"
               alt=""
               onClick={likeHandler}
             />
             <img
               className="likeIcon"
-              src="assets/heart.png"
+              src="/public/heart.png"
               alt=""
               onClick={likeHandler}
             />
